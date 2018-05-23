@@ -9,6 +9,7 @@ This repo is a Docker image of [nginx-http-flv-module](https://github.com/winshi
 ## Installation
 
 Pull Docker image:
+
 ```shell
 docker pull mugennsou/nginx-http-flv
 ```
@@ -21,7 +22,7 @@ Start nginx-http-flv server:
 docker run --rm -it -p 80:80 -p 1935:1935 mugennsou/nginx-http-flv
 ```
 
-Push rtmp stream to nginx-http-flv server:
+Push RTMP stream to nginx-http-flv server:
 
 ```shell
 ffmpeg -re -i example.mp4 -vcodec copy -acodec copy -f flv rtmp://127.0.0.1/demo
@@ -33,8 +34,8 @@ You can read here for more details:
 
 [nginx-http-flv-module](https://github.com/winshining/nginx-http-flv-module)
 
-[flv.js](https://github.com/bilibili/flv.js)
-
 [nginx-rtmp-module](https://github.com/arut/nginx-rtmp-module)
+
+[flv.js](https://github.com/bilibili/flv.js)
 
 [docker-nginx](https://github.com/nginxinc/docker-nginx)

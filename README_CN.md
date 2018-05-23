@@ -72,6 +72,10 @@ server {
     location /live { # 推流服务
         flv_live                    on;
         chunked_transfer_encoding   on;
+
+        # 此处可以通过 NGINX 添加 HTTP 头解决跨域问题
+        # add_header                  'Access-Control-Allow-Origin' '*';
+        # add_header                  'Access-Control-Allow-Credentials' 'true';
     }
 }
 ```
@@ -107,8 +111,8 @@ http://host[:port]/live?app=demo&stream=demo
 
 [nginx-http-flv-module](https://github.com/winshining/nginx-http-flv-module)
 
-[flv.js](https://github.com/bilibili/flv.js)
-
 [nginx-rtmp-module](https://github.com/arut/nginx-rtmp-module)
+
+[flv.js](https://github.com/bilibili/flv.js)
 
 [docker-nginx](https://github.com/nginxinc/docker-nginx)
