@@ -87,24 +87,26 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     && rm nginx.tar.gz \
     && rm nginx-http-flv-module-$NGINX_HTTP_FLV_MODULE_VERSION.zip \
     && cd /usr/src/nginx-$NGINX_VERSION \
-    && ./configure $CONFIG --add-module=/usr/src/nginx-http-flv-module-$NGINX_HTTP_FLV_MODULE_VERSION --with-debug \
-    && make -j$(getconf _NPROCESSORS_ONLN) \
-    && mv objs/nginx objs/nginx-debug \
-    && mv objs/ngx_http_xslt_filter_module.so objs/ngx_http_xslt_filter_module-debug.so \
-    && mv objs/ngx_http_image_filter_module.so objs/ngx_http_image_filter_module-debug.so \
-    && mv objs/ngx_http_geoip_module.so objs/ngx_http_geoip_module-debug.so \
-    && mv objs/ngx_stream_geoip_module.so objs/ngx_stream_geoip_module-debug.so \
+    # Remove debug module
+    # && ./configure $CONFIG --add-module=/usr/src/nginx-http-flv-module-$NGINX_HTTP_FLV_MODULE_VERSION --with-debug \
+    # && make -j$(getconf _NPROCESSORS_ONLN) \
+    # && mv objs/nginx objs/nginx-debug \
+    # && mv objs/ngx_http_xslt_filter_module.so objs/ngx_http_xslt_filter_module-debug.so \
+    # && mv objs/ngx_http_image_filter_module.so objs/ngx_http_image_filter_module-debug.so \
+    # && mv objs/ngx_http_geoip_module.so objs/ngx_http_geoip_module-debug.so \
+    # && mv objs/ngx_stream_geoip_module.so objs/ngx_stream_geoip_module-debug.so \
     && ./configure $CONFIG --add-module=/usr/src/nginx-http-flv-module-$NGINX_HTTP_FLV_MODULE_VERSION \
     && make -j$(getconf _NPROCESSORS_ONLN) \
     && make install \
     && rm -rf /etc/nginx/html/ \
     && mkdir /etc/nginx/conf.d/ \
     && mkdir /etc/nginx/rtmp.conf.d/ \
-    && install -m755 objs/nginx-debug /usr/sbin/nginx-debug \
-    && install -m755 objs/ngx_http_xslt_filter_module-debug.so /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so \
-    && install -m755 objs/ngx_http_image_filter_module-debug.so /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so \
-    && install -m755 objs/ngx_http_geoip_module-debug.so /usr/lib/nginx/modules/ngx_http_geoip_module-debug.so \
-    && install -m755 objs/ngx_stream_geoip_module-debug.so /usr/lib/nginx/modules/ngx_stream_geoip_module-debug.so \
+    # Remove debug module
+    # && install -m755 objs/nginx-debug /usr/sbin/nginx-debug \
+    # && install -m755 objs/ngx_http_xslt_filter_module-debug.so /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so \
+    # && install -m755 objs/ngx_http_image_filter_module-debug.so /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so \
+    # && install -m755 objs/ngx_http_geoip_module-debug.so /usr/lib/nginx/modules/ngx_http_geoip_module-debug.so \
+    # && install -m755 objs/ngx_stream_geoip_module-debug.so /usr/lib/nginx/modules/ngx_stream_geoip_module-debug.so \
     && ln -s ../../usr/lib/nginx/modules /etc/nginx/modules \
     && strip /usr/sbin/nginx* \
     && strip /usr/lib/nginx/modules/*.so \
@@ -139,8 +141,8 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 
 COPY demo/ /var/www
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY nginx.rtmp.conf /etc/nginx/rtmp.conf.d/rtmp.conf
-COPY nginx.http.flv.conf /etc/nginx/conf.d/http.flv.conf
+COPY rtmp.conf /etc/nginx/conf.d/rtmp/rtmp.conf
+COPY http-flv.conf /etc/nginx/conf.d/http/http-flv.conf
 
 EXPOSE 80 1935
 
