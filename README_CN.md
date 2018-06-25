@@ -33,7 +33,7 @@ ffmpeg -re -i example.mp4 -vcodec copy -acodec copy -f flv rtmp://127.0.0.1/demo
 
 ### RTMP 部分
 
-配置文件位于镜像中 `/etc/nginx/rmtp.conf.d/` 文件夹下，其基本格式为：
+配置文件位于镜像中 `/etc/nginx/conf.d/rtmp/rtmp.conf` 文件，其基本格式为：
 
 ```nginx
 rtmp {
@@ -46,7 +46,7 @@ rtmp {
 
         application demo { # 应用名，需与 ffmpeg 推送的 appname 一致
             live            on;
-            gop_cache       on; # 打开GOP缓存，降低播放延迟
+            gop_cache       on; # 打开GOP缓存，降低播放等待时间
         }
     }
 }
@@ -57,7 +57,7 @@ rtmp {
 
 ### HTTP-FLV 部分
 
-配置文件位于镜像中 `/etc/nginx/conf.d/` 文件夹下，基本格式与普通的 http 服务写法类似：
+配置文件位于镜像中 `/etc/nginx/conf.d/http/http-flv.conf` 文件，基本格式与普通的 http 服务写法类似：
 
 ```nginx
 server {
