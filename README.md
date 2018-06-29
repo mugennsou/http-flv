@@ -4,7 +4,7 @@
 
 This repo is a Docker image of [nginx-http-flv-module](https://github.com/winshining/nginx-http-flv-module), include a [flv.js](https://github.com/bilibili/flv.js) demo.
 
-[中文说明](README_CN.md)
+[中文说明](https://github.com/mugennsou/http-flv/blob/master/README_CN.md)
 
 ## Installation
 
