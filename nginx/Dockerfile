@@ -1,7 +1,6 @@
-FROM alpine:3.7
+FROM alpine:latest
 
-ENV NGINX_VERSION 1.15.0
-ENV NGINX_HTTP_FLV_MODULE_VERSION 1.2.4
+ENV NGINX_VERSION 1.15.3
 
 RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     && CONFIG="\
@@ -52,6 +51,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     && addgroup -S nginx \
     && adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx nginx \
     && apk add --no-cache --virtual .build-deps \
+    git \
     gcc \
     libc-dev \
     make \
@@ -66,7 +66,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     geoip-dev \
     && curl -fSL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz -o nginx.tar.gz \
     && curl -fSL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz.asc  -o nginx.tar.gz.asc \
-    && curl -fSL https://github.com/winshining/nginx-http-flv-module/archive/v$NGINX_HTTP_FLV_MODULE_VERSION.zip -o nginx-http-flv-module.zip \
+    && git clone https://github.com/winshining/nginx-http-flv-module.git /usr/src/nginx-http-flv-module \
     && export GNUPGHOME="$(mktemp -d)" \
     && found=''; \
     for server in \
@@ -83,21 +83,17 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     && rm -rf "$GNUPGHOME" nginx.tar.gz.asc \
     && mkdir -p /usr/src \
     && tar -zxC /usr/src -f nginx.tar.gz \
-    && unzip nginx-http-flv-module.zip -d /usr/src \
     && rm nginx.tar.gz \
-    && rm nginx-http-flv-module.zip \
     && cd /usr/src/nginx-$NGINX_VERSION \
-    && ./configure $CONFIG --add-module=/usr/src/nginx-http-flv-module-$NGINX_HTTP_FLV_MODULE_VERSION \
+    && ./configure $CONFIG --add-module=/usr/src/nginx-http-flv-module \
     && make -j$(getconf _NPROCESSORS_ONLN) \
     && make install \
     && rm -rf /etc/nginx/html/ \
-    && mkdir -p /etc/nginx/conf.d/http-flv \
-    && mkdir -p /etc/nginx/conf.d/rtmp \
     && ln -s /usr/lib/nginx/modules /etc/nginx/modules \
     && strip /usr/sbin/nginx* \
     && strip /usr/lib/nginx/modules/*.so \
     && rm -rf /usr/src/nginx-$NGINX_VERSION \
-    && rm -rf /usr/src/nginx-http-flv-module-$NGINX_HTTP_FLV_MODULE_VERSION \
+    && rm -rf /usr/src/nginx-http-flv-module \
     \
     # Bring in gettext so we can get `envsubst`, then throw
     # the rest away. To do this, we need to install `gettext`
@@ -125,10 +121,9 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
 
-COPY demo /var/www
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY rtmp.conf /etc/nginx/conf.d/rtmp/rtmp.conf
-COPY http-flv.conf /etc/nginx/conf.d/http/http-flv.conf
+COPY conf.d/ /etc/nginx/conf.d/
+COPY www/ /var/www/
 
 EXPOSE 80 1935
 
