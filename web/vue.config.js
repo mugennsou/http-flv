@@ -1,3 +1,4 @@
 module.exports = {
-  outputDir: '../nginx/www'
+  outputDir: '../nginx/www',
+  filenameHashing: false
 }
