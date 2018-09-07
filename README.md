@@ -14,6 +14,8 @@ Pull Docker image:
 docker pull mugennsou/nginx-http-flv
 ```
 
+Note: you can pull the `mugennsou/nginx-http-flv:dev` tag to experience the latest nginx-http-module.
+
 ## Usage
 
 Start nginx-http-flv server:

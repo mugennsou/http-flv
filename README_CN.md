@@ -13,6 +13,8 @@
 docker pull mugennsou/nginx-http-flv
 ```
 
+注: 你可以拉取 `mugennsou/nginx-http-flv:dev` tag 以使用最新版本的 http-flv-modlue。
+
 ## 使用
 
 启动 nginx-http-flv 服务器：
