@@ -85,7 +85,7 @@ export default {
       mediaDataSource: {
         type: 'flv',
         isLive: true,
-        url: 'http://localhost/live?app=demo',
+        url: 'http://localhost/live?app=demo&stream=stream-1',
         hasAudio: true,
         hasVideo: true,
       }
