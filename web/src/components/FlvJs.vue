@@ -1,6 +1,6 @@
 <template>
   <div id="flv-js-player">
-    <el-form :model="mediaDataSource" :disabled="!supported">
+    <el-form :model="mediaDataSource" :disabled="!supported" @submit.native.prevent>
       <el-form-item>
         <el-input v-model="mediaDataSource.url" />
       </el-form-item>
