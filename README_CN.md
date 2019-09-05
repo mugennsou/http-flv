@@ -13,7 +13,7 @@
 docker pull mugennsou/nginx-http-flv
 ```
 
-注: 你可以拉取 `mugennsou/nginx-http-flv:dev` tag 以使用最新版本的 http-flv-modlue。
+注: 你可以拉取 `mugennsou/nginx-http-flv:dev` tag 以使用最新版本（不稳定，但包含原作者所有修改）的 http-flv-modlue。
 
 ## 使用
 
@@ -26,7 +26,7 @@ docker run --rm -it -p 80:80 -p 1935:1935 mugennsou/nginx-http-flv
 使用 ffmpeg 向 nginx-http-flv 的 RTMP 服务器推流：
 
 ```shell
-ffmpeg -re -i example.mp4 -vcodec copy -acodec copy -f flv rtmp://127.0.0.1/demo
+ffmpeg -re -i example.mp4 -vcodec copy -acodec copy -f flv rtmp://127.0.0.1/demo/stream-1
 ```
 
 然后打开浏览器，访问地址 127.0.0.1 即可查看效果。
@@ -87,12 +87,12 @@ server {
 ffmpeg 推流方式为：
 
 ```shell
-ffmpeg -re -i example.mp4 -vcodec copy -acodec copy -f flv rtmp://host[:port]/appname[/streamname]
+ffmpeg -re -i example.mp4 -vcodec copy -acodec copy -f flv rtmp://host[:port]/appname/streamname
 ```
 
 - port 为可选，默认为 1935，需与 RTMP 服务监听端口一致
 - appname 必选，需与 RTMP 服务的 `application` 名一致
-- streamname 可选
+- streamname 必须按，推流的流名称
 
 ### 前端 HTTP/flv.js 部分
 
@@ -101,13 +101,14 @@ ffmpeg -re -i example.mp4 -vcodec copy -acodec copy -f flv rtmp://host[:port]/ap
 流地址:
 
 ```
-http://host[:port]/live?app=demo&stream=demo
+http://host[:port]/live?app=demo&stream=stream-1
 ```
 
 注：
+
 - port 为可选，默认为 80，对应 http 服务的端口
 - app 为 RTMP 服务的 `application` 名
-- stream 为可选，如果 ffmpeg 推流时有指定，则此处必须与之对应
+- stream ffmpeg 推流时指定的流名称
 
 更多参考：
 

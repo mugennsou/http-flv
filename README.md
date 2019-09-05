@@ -14,7 +14,7 @@ Pull Docker image:
 docker pull mugennsou/nginx-http-flv
 ```
 
-Note: you can pull the `mugennsou/nginx-http-flv:dev` tag to experience the latest nginx-http-module.
+Note: you can pull the `mugennsou/nginx-http-flv:dev` tag to experience the latest (in developing) nginx-http-module.
 
 ## Usage
 
@@ -27,7 +27,7 @@ docker run --rm -it -p 80:80 -p 1935:1935 mugennsou/nginx-http-flv
 Push RTMP stream to nginx-http-flv server:
 
 ```shell
-ffmpeg -re -i example.mp4 -vcodec copy -acodec copy -f flv rtmp://127.0.0.1/demo
+ffmpeg -re -i example.mp4 -vcodec copy -acodec copy -f flv rtmp://127.0.0.1/demo/stream-1
 ```
 
 Then browse [http://127.0.0.1](http://127.0.0.1), enjoy it!
